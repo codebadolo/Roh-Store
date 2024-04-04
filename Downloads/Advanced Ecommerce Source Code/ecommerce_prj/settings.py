@@ -24,7 +24,6 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -35,7 +34,6 @@ SECRET_KEY = "env('SECRET_KEY')"
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -76,9 +74,10 @@ INSTALLED_APPS = [
     'storages',
     'crispy_bootstrap5',
 
+    # me  adding
+    'rosetta'
+
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -113,7 +112,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce_prj.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -123,7 +121,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # DATABASES = {
 #     'default': {
@@ -138,7 +135,6 @@ DATABASES = {
 
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -158,7 +154,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -171,7 +166,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -187,7 +181,19 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+from django.utils.translation import gettext_lazy as _
 
+LANGUAGE_CODE = 'en-us'  # This is optional language choice.
+USE_I18N = True
+USE_L10N = True
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('fr', _('French')),
+)
+# Rosetta store the translation datas in this file. 
+# LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 # AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 
 # AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
@@ -230,7 +236,6 @@ CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
-
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_CONNECT_CLIENT_ID = env("STRIPE_CONNECT_CLIENT_ID")
@@ -238,23 +243,21 @@ STRIPE_CONNECT_CLIENT_ID = env("STRIPE_CONNECT_CLIENT_ID")
 PAYPAL_CLIENT_ID = env("PAYPAL_CLIENT_ID")
 PAYPAL_SECRET_ID = env("PAYPAL_SECRET_ID")
 
-PAYPAL_RECEIVER_EMAIL =  env("PAYPAL_RECEIVER_EMAIL")
+PAYPAL_RECEIVER_EMAIL = env("PAYPAL_RECEIVER_EMAIL")
 PAYPAL_TEST = env("PAYPAL_TEST")
 PAYPAL_ACCESS_TOKEN = os.environ.get("PAYPAL_ACCESS_TOKEN")
 
 ANYMAIL = {
     "MAILGUN_API_KEY": os.environ.get("MAILGUN_API_KEY"),
-    "MAILGUN_SENDER_DOMAIN": os.environ.get("MAILGUN_SENDER_DOMAIN"),  
+    "MAILGUN_SENDER_DOMAIN": os.environ.get("MAILGUN_SENDER_DOMAIN"),
 }
 
+FROM_EMAIL = 'desphixs@gmail.com'
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+DEFAULT_FROM_EMAIL = 'desphixs@gmail.com'
+SERVER_EMAIL = 'desphixs@gmail.com'
 
-
-FROM_EMAIL='desphixs@gmail.com'
-EMAIL_BACKEND='anymail.backends.mailgun.EmailBackend'
-DEFAULT_FROM_EMAIL='desphixs@gmail.com'
-SERVER_EMAIL='desphixs@gmail.com'
-
-GEOIP_PATH =os.path.join('geoip')
+GEOIP_PATH = os.path.join('geoip')
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
@@ -264,7 +267,6 @@ MESSAGE_TAGS = {
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-
 customColorPalette = [
     {"color": "hsl(4, 90%, 58%)", "label": "Red"},
     {"color": "hsl(340, 82%, 52%)", "label": "Pink"},
@@ -273,8 +275,6 @@ customColorPalette = [
     {"color": "hsl(231, 48%, 48%)", "label": "Indigo"},
     {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
 ]
-
-
 
 CKEDITOR_5_CONFIGS = {
     "default": {
@@ -319,7 +319,7 @@ CKEDITOR_5_CONFIGS = {
         "toolbar": [
             # "heading",
             # "|",
-            
+
             # "|",
             "bold",
             "italic",
@@ -430,20 +430,16 @@ CKEDITOR_5_CONFIGS = {
     },
 }
 
-
-
-
-
 JAZZMIN_SETTINGS = {
     'site_header': "Desphixs",
     'site_brand': "Your #1 marketplace for collectibles.",
     'site_logo': "images/logo.png",
-    'copyright':  "All Right Reserved 2023",
+    'copyright': "All Right Reserved 2023",
     # "order_with_respect_to": ["store", 'vendor', "addons" , 'core' ,'userauths'],
     "welcome_sign": "Welcome to Desphixs, Login Now.",
     "topmenu_links": [
 
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "Company", "url": "/admin/addons/company/"},
         {"name": "Users", "url": "/admin/userauths/user/"},
 
@@ -472,7 +468,7 @@ JAZZMIN_SETTINGS = {
         "addons",
         "addons.company"
     ],
-    
+
     "icons": {
         "admin.LogEntry": "fas fa-file",
 
@@ -480,55 +476,51 @@ JAZZMIN_SETTINGS = {
         "auth.user": "fas fa-user",
 
         "userauths.User": "fas fa-user",
-        "userauths.Profile":"fas fa-address-card",
+        "userauths.Profile": "fas fa-address-card",
 
         "store.Product": "fas fa-th",
-        "store.CartOrder":"fas fa-shopping-cart",
-        "store.CartOrderItem":"fas fa-shopping-basket",
-        "store.Brand":"fas fa-check-circle",
-        "store.productfaq":"fas fa-question",
-        "store.productoffers":"fas fa-handshake",
-        "store.productbidders":"fas fa-poll",
-        "store.Review":"fas fa-star fa-beat",
-        "store.Category":"fas fa-tag",
+        "store.CartOrder": "fas fa-shopping-cart",
+        "store.CartOrderItem": "fas fa-shopping-basket",
+        "store.Brand": "fas fa-check-circle",
+        "store.productfaq": "fas fa-question",
+        "store.productoffers": "fas fa-handshake",
+        "store.productbidders": "fas fa-poll",
+        "store.Review": "fas fa-star fa-beat",
+        "store.Category": "fas fa-tag",
 
-        "vendor.Vendor":"fas fa-store",
-        "vendor.Coupon":"fas fa-percentage",
-        "vendor.DeliveryCouriers":"fas fa-truck",
-        "vendor.Notification":"fas fa-bell",
-        "vendor.PayoutTracker":"fas fa-wallet",
-        "vendor.ChatMessage":"fas fa-envelope",
+        "vendor.Vendor": "fas fa-store",
+        "vendor.Coupon": "fas fa-percentage",
+        "vendor.DeliveryCouriers": "fas fa-truck",
+        "vendor.Notification": "fas fa-bell",
+        "vendor.PayoutTracker": "fas fa-wallet",
+        "vendor.ChatMessage": "fas fa-envelope",
 
+        "addons.AboutUS": "fas fa-users",
+        "addons.Company": "fas fa-university",
+        "addons.BasicAddon": "fas fa-cog",
+        "addons.NewsLetter": "fas fa-envelope",
+        "addons.Policy": "fas fa-copyright",
+        "addons.ContactUs": "fas fa-phone",
+        "addons.Announcements": "fas fa-microphone",
+        "addons.PlatformNotifications": "fas fa-bell",
+        "addons.SupportContactInformation": "fas fa-headset",
+        "addons.TaxRate": "fas fa-percentage",
+        "addons.HomePageSetup": "fas fa-home",
+        "addons.FAQs": "fas fa-question",
+        "addons.PaymentMethod": "fas fa-credit-card",
 
-        "addons.AboutUS":"fas fa-users",
-        "addons.Company":"fas fa-university",
-        "addons.BasicAddon":"fas fa-cog",
-        "addons.NewsLetter":"fas fa-envelope",
-        "addons.Policy":"fas fa-copyright",
-        "addons.ContactUs":"fas fa-phone",
-        "addons.Announcements":"fas fa-microphone",
-        "addons.PlatformNotifications":"fas fa-bell",
-        "addons.SupportContactInformation":"fas fa-headset",
-        "addons.TaxRate":"fas fa-percentage",
-        "addons.HomePageSetup":"fas fa-home",
-        "addons.FAQs":"fas fa-question",
-        "addons.PaymentMethod":"fas fa-credit-card",
+        "blog.Post": "fas fa-th",
+        "blog.Category": "fas fa-tag",
+        "blog.Comment": "fas fa-comments",
 
+        "core.Address": "fas fa-map-marker",
+        "core.BillingAddress": "fas fa-credit-card",
+        "core.CancelledOrder": "fas fa-ban",
+        "core.Wishlist": "fas fa-heart",
 
-        "blog.Post":"fas fa-th",
-        "blog.Category":"fas fa-tag",
-        "blog.Comment":"fas fa-comments",
-
-        "core.Address":"fas fa-map-marker",
-        "core.BillingAddress":"fas fa-credit-card",
-        "core.CancelledOrder":"fas fa-ban",
-        "core.Wishlist":"fas fa-heart",
-
-        
     },
 
-
-    "show_ui_builder" : True
+    "show_ui_builder": True
 }
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
